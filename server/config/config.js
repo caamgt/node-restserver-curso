@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/cafe';
 } else {
     // Credenciales se creean en el sitio de la base de datos, en este caso, mlab.
-    urlDB = 'mongodb://calfaro:Loscar123456@ds237832.mlab.com:37832/cafegt';
+    urlDB = process.env.MONGO_URI;
 }
 
 // Para poder utilizarlo en el archivo server.js
