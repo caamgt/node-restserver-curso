@@ -3,10 +3,14 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 // Importamos el modelo o esquema. Este la utilizare para crear objetos.
 const Usuario = require('../models/usuario');
+// Importamos la funcion verificaToken
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion')
 const app = express();
 
 // Peticiones basicas.
-app.get('/usuario', function(req, res) {
+// ponemos un Middleware. Indicamos el middleware que se disparar al tratar de ingresar a esa ruta.
+app.get('/usuario', verificaToken, (req, res) => {
+
 
     // Asumimos que vendra la variable "desde" si no, quieres desde la pagina 0.
     let desde = req.query.desde || 0;
@@ -45,7 +49,7 @@ app.get('/usuario', function(req, res) {
             });
         });
 });
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role], function(req, res) {
 
     let body = req.body;
     // Creamos el objeto
@@ -82,7 +86,7 @@ app.post('/usuario', function(req, res) {
 
 });
 
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) {
     let id = req.params.id;
     // Utilizamos el underscore
     // propiedad pick que recibe el objeto que tiene todas las propiedades, en este caso "req.body".
@@ -107,7 +111,8 @@ app.put('/usuario/:id', function(req, res) {
 });
 
 // Para no brorrar se cambia el estado a desabilitado.
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
+
     let id = req.params.id;
     let cambiaEstado = {
         estado: false
