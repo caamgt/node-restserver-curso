@@ -94,7 +94,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function(req, res) 
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
 
     // Realizamos la actualiacion.
-    // El tercer argumento el cual es eun objeto es para que retorne el nuevo documento, el que tiene los cambios, que corra los validadores de roles en este caso.
+    // El tercer argumento el cual es un objeto es para que retorne el nuevo documento, el que tiene los cambios, que corra los validadores de roles en este caso.
     Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, usuarioDB) => {
         // Si hay error
         if (err) {
