@@ -137,7 +137,8 @@ app.post('/producto', verificaToken, (req, res) => {
         descripcion: body.descripcion,
         disponible: body.disponible,
         categoria: body.categoria,
-        usuario: req.usuario._id
+        usuario: req.usuario._id,
+        img: body.img
     });
 
     producto.save((err, productoDB) => {
